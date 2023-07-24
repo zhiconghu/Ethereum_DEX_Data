@@ -1,0 +1,180 @@
+---
+title: "RidgeLinePlot"
+author: "Zhicong Hu"
+date: "2023-07-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyverse)
+library(lubridate)
+library(data.table)
+
+library(ggplot2)
+library(ggridges)
+library(RColorBrewer)
+
+data <- read_csv("/Users/zhicong/Dropbox/DEXs/pre-plot_data/LP_Distribution_RidgeLinePlot_Data.csv",
+                 col_types = list(col_character(), col_character(), col_double(), col_double(), col_date(), col_double()))
+data <- data.table(data)
+```
+
+```{r}
+total_df = data.frame()
+
+for (month in as.character(seq(ymd("2022-01-01"), ymd("2023-07-01"), by = "1 month"))) {
+  temp <- data %>% 
+  
+    filter(POOL_NAME == "USDC-WETH 500 10") %>% 
+    filter(date <= month) %>% 
+    
+    # Group by price range and get latest observation for cumulative liquidity
+    group_by(PRICE_LOWER, PRICE_UPPER) %>% 
+    summarise_all(last) %>% 
+    filter(cumulative_liquidity > 0) %>% 
+    
+    # Convert (intervals and values) to (points and changes)
+    pivot_longer(cols = c(PRICE_LOWER, PRICE_UPPER), names_to = "key", values_to = "point") %>% 
+    mutate(change = ifelse(key == "PRICE_UPPER", -cumulative_liquidity, cumulative_liquidity)) %>% 
+    select(-cumulative_liquidity, -key) %>% 
+    
+    # Convert change to absolute value
+    group_by(point) %>% 
+    summarise(change = sum(change)) %>% 
+    arrange(point) %>% 
+    mutate(liquidity = cumsum(change)) %>% 
+    select(-change) %>% 
+    
+    # Add a column for month
+    mutate(date = month)
+  
+  total_df <- rbind(total_df, temp)
+}
+
+head(total_df)
+```
+
+
+```{r fig.width=8, fig.height=24, warning = FALSE}
+total_df %>% 
+  filter(date >= "2022-01-01" & date < "2023-01-01") %>% 
+
+  ggplot(aes(x = point, y = liquidity)) + 
+  
+    geom_step(aes(color = date)) +
+  
+    facet_wrap(~date, ncol = 1, scales = "free", strip.position = "right") +
+  
+    scale_x_continuous(limits = c(0,5000)) +
+  
+    scale_color_manual(values = colorRampPalette(c("lightblue","darkblue"))(12)) +
+  
+    theme_classic() +
+    theme(legend.position = "none") +
+    labs(title = "State of USDC-WETH 500 10 Pool in 2022",
+         x = "Prices", y = "Total Liquidity Parameter")
+```
+
+```{r fig.width=8, fig.height=16, warning = FALSE}
+total_df %>% 
+  filter(date >= "2023-01-01" & date <= "2023-07-01") %>% 
+
+  ggplot(aes(x = point, y = liquidity)) + 
+  
+    geom_step(aes(color = date)) +
+  
+    facet_wrap(~date, ncol = 1, scales = "free", strip.position = "right") +
+  
+    scale_x_continuous(limits = c(0,5000)) +
+  
+    scale_color_manual(values = colorRampPalette(c("red","darkred"))(8)) +
+  
+    theme_classic() +
+    theme(legend.position = "none") +
+    labs(title = "State of USDC-WETH 500 10 Pool in 2023",
+         x = "Prices", y = "Total Liquidity Parameter")
+```
+
+```{r}
+total_df = data.frame()
+
+for (month in as.character(seq(ymd("2022-01-01"), ymd("2023-07-01"), by = "1 month"))) {
+  temp <- data %>% 
+  
+    filter(POOL_NAME == "USDC-WETH 3000 60") %>% 
+    filter(date <= month) %>% 
+    
+    # Group by price range and get latest observation for cumulative liquidity
+    group_by(PRICE_LOWER, PRICE_UPPER) %>% 
+    summarise_all(last) %>% 
+    filter(cumulative_liquidity > 0) %>% 
+    
+    # Convert (intervals and values) to (points and changes)
+    pivot_longer(cols = c(PRICE_LOWER, PRICE_UPPER), names_to = "key", values_to = "point") %>% 
+    mutate(change = ifelse(key == "PRICE_UPPER", -cumulative_liquidity, cumulative_liquidity)) %>% 
+    select(-cumulative_liquidity, -key) %>% 
+    
+    # Convert change to absolute value
+    group_by(point) %>% 
+    summarise(change = sum(change)) %>% 
+    arrange(point) %>% 
+    mutate(liquidity = cumsum(change)) %>% 
+    select(-change) %>% 
+    
+    # Add a column for month
+    mutate(date = month)
+  
+  total_df <- rbind(total_df, temp)
+}
+
+head(total_df)
+
+```
+
+
+```{r fig.width=8, fig.height=24, warning = FALSE}
+total_df %>% 
+  filter(date >= "2022-01-01" & date < "2023-01-01") %>% 
+
+  ggplot(aes(x = point, y = liquidity)) + 
+  
+    geom_step(aes(color = date)) +
+  
+    facet_wrap(~date, ncol = 1, scales = "free", strip.position = "right") +
+  
+    scale_x_continuous(limits = c(0,5000)) +
+  
+    scale_color_manual(values = colorRampPalette(c("lightblue","darkblue"))(12)) +
+  
+    theme_classic() +
+    theme(legend.position = "none") +
+    labs(title = "State of USDC-WETH 3000 600 Pool in 2022",
+         x = "Prices", y = "Total Liquidity Parameter")
+```
+
+
+```{r fig.width=8, fig.height=16, warning = FALSE}
+total_df %>% 
+  filter(date >= "2023-01-01" & date <= "2023-07-01") %>% 
+
+  ggplot(aes(x = point, y = liquidity)) + 
+  
+    geom_step(aes(color = date)) +
+  
+    facet_wrap(~date, ncol = 1, scales = "free", strip.position = "right") +
+  
+    scale_x_continuous(limits = c(0,5000)) +
+  
+    scale_color_manual(values = colorRampPalette(c("red","darkred"))(8)) +
+  
+    theme_classic() +
+    theme(legend.position = "none") +
+    labs(title = "State of USDC-WETH 3000 60 Pool in 2023",
+         x = "Prices", y = "Total Liquidity Parameter")
+```

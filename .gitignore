@@ -1,3 +1,6 @@
 /.DS_Store
 /__pycache__
 /Data Scraping and Cleaning/__pycache__
+.Rproj.user
+Ethereum_DEX_Data.Rproj
+.Rhistory
