@@ -3,8 +3,8 @@ from sympy import symbols, Symbol, Eq, nsolve, solve, sqrt
 from decimal import Decimal, getcontext
 
 
-def Get_Price(_tick_):
-    return Decimal(1/(1.0001**_tick_*10**-12))
+def Get_Price(_tick_, _decimals_):
+    return Decimal(1/(1.0001**_tick_*10**_decimals_))
 
 
 def Get_Liquidity_Parameter(row_tuple):
