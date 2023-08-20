@@ -15,9 +15,10 @@ provision and withdrawal actions.
 
 ## Harvard Paper Simulation
 
-This folder contains a paper on optimising liquidity provision for liquidity providers using projected gradient descent. In Functions.ipynb, we adapted the logic of Uniswap V3 into Python and did the
-same optimisation problem by solving it through reinforcement learning (q-learning) and acheived similar results. We plan to move forward to lifting some of the main assumptions made in the 
-optimisation problem and trying to solve it with reinforcement learning to see results
+This folder contains a paper, "Differential Liquidity Provision in Uniswap v3 and Implications for Contract Design" by Zhou Fan, Francisco Marmolejo-Coss, Ben Altschuler, He Sun, 
+Xintong Wang, and David C. Parkes, on optimising liquidity provision for liquidity providers using projected gradient descent. In Functions.ipynb, we adapted the logic of Uniswap V3 
+into Python and did the same optimisation problem by solving it through reinforcement learning (q-learning) and acheived similar results. We plan to move forward to lifting some 
+of the main assumptions made in the optimisation problem and trying to solve it with reinforcement learning to see results
 
 ## Others
 
