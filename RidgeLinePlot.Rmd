@@ -20,7 +20,7 @@ library(ggplot2)
 library(ggridges)
 library(RColorBrewer)
 
-data <- read_csv("/Users/zhicong/Dropbox/DEXs/pre-plot_data/LP_Distribution_RidgeLinePlot_Data.csv",
+data <- read_csv("/Users/zhicong/Dropbox/DEXs/Data/pre-plot_data/LP_Distribution_RidgeLinePlot_Data.csv",
                  col_types = list(col_character(), col_character(), col_double(), col_double(), col_date(), col_double()))
 data <- data.table(data)
 ```
