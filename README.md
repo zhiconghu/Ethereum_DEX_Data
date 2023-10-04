@@ -10,8 +10,7 @@ such as competition and price imapct of trade. This is simply an index that capt
 
 ## Data Scraping and Cleaning
 
-This folder contains the code to extract DEXs data from FlipSide Crypto APIs. This file also contains the code for cleaning the data and enriching it, such as adding liquidity parameter to liquidity
-provision and withdrawal actions.
+This folder contains the code to extract DEXs data from FlipSide Crypto APIs. This file also contains the code for cleaning the data and enriching it, such as adding liquidity parameter to liquidity provision and withdrawal actions. The *Swaps Data Cleaning.ipynb* contains the code for combining all the csv files we scrape from FlipSide Crypto online interface into one single parquet file.
 
 ## Harvard Paper Simulation
 
@@ -22,7 +21,7 @@ of the main assumptions made in the optimisation problem and trying to solve it 
 
 ## Others
 
-We have other files that explores the behaviour of current liquidity providers and traders. We aim to compare current actions with optimal actions proposed by our model.
+We have other files that explores the behaviour of current liquidity providers and traders, *LP Data Descriptions* and *Trader Data Descriptions*. *Python_Implementation_of_UniSwap_V3* defines several functions that mimic the actions of the UniSwap V3 Protocol. *FTX Case Study* aim to look at investment behaviour of investors that were affect by the collapse of FTX. *History of USDC-WETH 500 10 Pool* aims to replay all the trader and LP action of the pool history using our written functions in Python, there is still some existing errors from the actual data that can be because of missing trading or provision data or rounding errors from our function. Our final aim is to compare current actions with optimal actions proposed by our model.
 
 
 
